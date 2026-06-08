@@ -33,7 +33,7 @@ printJson(wordle.solveWordle("guess"))
 ```
 
 ## getCache
-`<Wordle>.getCache(): <[string]: Wordle.Properties>`
+`<Wordle>.getCache(): <{[string]: Wordle.Properties}>`
 
 Gets every Wordle that exists in cache indexed by date
 
