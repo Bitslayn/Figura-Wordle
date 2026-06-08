@@ -6,7 +6,8 @@
 
 # Functions
 
-## getWordle - `<Wordle>.getWordle(<year: integer?>, <month: integer?>, <day: integer?>): <Wordle.Properties>`
+## getWordle
+`<Wordle>.getWordle(<year: integer?>, <month: integer?>, <day: integer?>): <Wordle.Properties>`
 
 Gets the Wordle on the specified date
 
@@ -18,7 +19,8 @@ local wordle = require("Wordle")
 printTable(wordle.getWordle(2026, 6, 8))
 ```
 
-## solveWordle - `<Wordle>.solveWordle(<guess: string>, <year: integer?>, <month: integer?>, <day: integer?>): <string>`
+## solveWordle
+`<Wordle>.solveWordle(<guess: string>, <year: integer?>, <month: integer?>, <day: integer?>): <string>`
 
 Solves a Wordle, returning a json string
 
@@ -30,7 +32,8 @@ local wordle = require("Wordle")
 printJson(wordle.solveWordle("guess"))
 ```
 
-## getCache - `<Wordle>.getCache(): <[string]: Wordle.Properties>`
+## getCache
+`<Wordle>.getCache(): <[string]: Wordle.Properties>`
 
 Gets every Wordle that exists in cache indexed by date
 
