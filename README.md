@@ -42,3 +42,17 @@ local wordle = require("Wordle")
 
 printTable(wordle.getCache(), 2)
 ```
+
+# Classes
+
+## Wordle.Properties
+
+Contains several fields parsed from the Wordle HTTP response
+
+| Name              | Type      | Example       |
+| ----------------- | --------- | ------------- |
+| id                | `integer` | 1977          |
+| solution          | `string`  | horse         |
+| print_date        | `string`  | 2023-03-07    |
+| days_since_launch | `integer` | 626           |
+| editor            | `string`  | Tracy Bennett |
