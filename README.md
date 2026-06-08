@@ -16,7 +16,7 @@ If no date is provided, returns todays Wordle
 ```lua
 local wordle = require("Wordle")
 
-printTable(wordle.getWordle(2026, 6, 8))
+printTable(wordle.getWordle(2023, 3, 7))
 ```
 
 ## solveWordle
