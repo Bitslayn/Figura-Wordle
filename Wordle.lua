@@ -3,7 +3,7 @@ ____  ___ __   __
 | __|/ _ \\ \ / /
 | _|| (_) |> w <
 |_|  \___//_/ \_\
-FOX's Wordle API v1.0
+FOX's Wordle API v1.1
 
 Github: https://github.com/Bitslayn/Figura-Wordle
 ]]
@@ -23,6 +23,7 @@ Github: https://github.com/Bitslayn/Figura-Wordle
 ---@param formatted_date string
 ---@param level integer?
 ---@return string
+---@nodiscard
 local function fetch_wordle(formatted_date, level)
 	-- Create HTTP request
 
@@ -56,6 +57,7 @@ end
 ---@param formatted_date string
 ---@overload fun(): table<string, string>
 ---@return string?
+---@nodiscard
 local function fetch_cache(formatted_date)
 	local name = config:getName()
 	config:setName("Wordle")
@@ -68,6 +70,7 @@ end
 ---@param formatted_date string
 ---@param body string
 ---@return string
+---@nodiscard
 local function store_cache(formatted_date, body)
 	local name = config:getName()
 	config:setName("Wordle")
@@ -77,12 +80,15 @@ local function store_cache(formatted_date, body)
 end
 
 ---Gets the Wordle on the specified date
+---
+---If no date is provided, returns todays Wordle
+---@param level integer?
 ---@param year integer?
 ---@param month integer?
 ---@param day integer?
----@param level integer?
 ---@return Wordle.Properties
-local function get_wordle(year, month, day, level)
+---@nodiscard
+local function get_wordle(level, year, month, day)
 	local date = client.getDate()
 
 	year = year or date.year
@@ -103,15 +109,21 @@ end
 local wordle = {}
 
 ---Gets the Wordle on the specified date
+---
+---If no date is provided, returns todays Wordle
 ---@param year integer?
 ---@param month integer?
 ---@param day integer?
+---@return Wordle.Properties
+---@overload fun(): Wordle.Properties
+---@nodiscard
 function wordle.getWordle(year, month, day)
-	return get_wordle(year, month, day, 3)
+	return get_wordle(3, year, month, day)
 end
 
----Gets every Wordle that exists in cache
+---Gets every Wordle that exists in cache indexed by date
 ---@return table<string, Wordle.Properties>
+---@nodiscard
 function wordle.getCache()
 	local cache = fetch_cache()
 	local parsed_cache = {}
@@ -121,20 +133,23 @@ function wordle.getCache()
 	return parsed_cache
 end
 
----Solves a Wordle
+---Solves a Wordle, returning a json string
 ---
 ---Throws if the guess isn't a 5 letter word
 ---@param guess string
 ---@param year integer?
 ---@param month integer?
 ---@param day integer?
+---@return string
+---@overload fun(guess: string): string
+---@nodiscard
 function wordle.solveWordle(guess, year, month, day)
 	guess = string.match(guess, "%a*")
 	if type(guess) ~= "string" or #guess ~= 5 then
 		error("Invalid Wordle guess: " .. tostring(guess), 2)
 	end
 
-	local solution = get_wordle(year, month, day, 4).solution
+	local solution = get_wordle(4, year, month, day).solution
 
 	local squares = {
 		{ text = "■", color = "gray" },
@@ -142,6 +157,7 @@ function wordle.solveWordle(guess, year, month, day)
 		{ text = "■", color = "gray" },
 		{ text = "■", color = "gray" },
 		{ text = "■", color = "gray" },
+		{ text = " " .. guess },
 	}
 
 	-- Count letters
@@ -177,7 +193,7 @@ function wordle.solveWordle(guess, year, month, day)
 		end
 	end
 
-	return toJson({ text = guess .. " ", extra = squares })
+	return toJson({ text = "", extra = squares })
 end
 
 return wordle
